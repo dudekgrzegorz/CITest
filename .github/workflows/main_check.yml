@@ -1,6 +1,7 @@
 name: CI workflow
 
 on:
+  push:
   pull_request: 
     types: [opened, ready_for_review, closed]  
 
@@ -28,6 +29,6 @@ jobs:
           echo pull request: merge is about to be prevented!
           exit 1
         
-     # - name: Run if push
-     #   if: github.event_name == 'push'
-     #   run: echo commit pushed!
+      - name: Run if push
+        if: github.event_name == 'push'
+        run: echo commit pushed!
