@@ -29,5 +29,5 @@ jobs:
           exit 1
         
       - name: Run if push
-        if: github.event.push == 'true'
+        if: github.event_name == 'push'
         run: echo commit pushed!
