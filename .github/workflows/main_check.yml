@@ -1,7 +1,6 @@
 name: CI workflow
 
 on:
-  push: 
   pull_request: 
     types: [opened, ready_for_review, closed]  
 
@@ -11,6 +10,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    name: build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
