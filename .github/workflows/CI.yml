@@ -30,13 +30,14 @@ jobs:
         run: echo on PR
         
       - name: cache bazel cache
-        id: ck_bazel_cache
+        id: bazel-cache
         uses: actions/cache@v3
         with:
+          key: ck_bazel
           path: ~/.cache/bazel
           
       - name: print cache hit
-        run: echo ${{ steps.ck_bazel_cache.outputs.cache-hit == 'true' }}
+        run: echo ${{ steps.bazel-cache.outputs.cache-hit == 'true' }}
         
       - name: install toolchain
         run: |
