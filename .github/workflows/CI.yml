@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
@@ -29,20 +29,32 @@ jobs:
         if: github.ref_name == '!main'
         run: echo on PR
         
+      - name: cache bazel cache
+        id: ck_bazel_cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/bazel
+          
+      - name: print cache hit
+        run: echo ${{ steps.ck_bazel_cache.outputs.cache-hit == 'true' }}
+        
       - name: install toolchain
         run: |
           # install dependencies
           sudo apt-get --assume-yes install git wget openssl libssl-dev cmake libcurl4-openssl-dev apt-transport-https curl gnupg binutils-dev openjdk-11-jdk
+          
+          # (preinstalled: 1.16.15, 1.17.12, 1.18.4)
           sudo wget https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
           sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.17.5.linux-amd64.tar.gz
           sudo echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
 
-          curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
-          sudo mv bazel.gpg /etc/apt/trusted.gpg.d/
-          echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
-          sudo apt update && sudo apt install bazel-5.1.1
+          # (preinstalled: bazel-5.2.0)
+          #curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
+          #sudo mv bazel.gpg /etc/apt/trusted.gpg.d/
+          #echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+          #sudo apt update && sudo apt install bazel-5.1.1
 
-          # install g++ 11
+          # install g++ 11 (preinstalled: 9.4.0, 10.3.0)
           sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
           sudo apt install -y gcc-11 g++-11
 
@@ -52,3 +64,11 @@ jobs:
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-11 30
           sudo update-alternatives --set cc /usr/bin/gcc
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+      
+      - name: verify
+        run: |
+          echo bazel --version
+          echo go version
+          
+      - name: test
+        run: bazel test ...
