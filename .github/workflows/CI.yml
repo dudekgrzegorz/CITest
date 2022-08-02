@@ -45,9 +45,9 @@ jobs:
           sudo apt-get --assume-yes install git wget openssl libssl-dev cmake libcurl4-openssl-dev apt-transport-https curl gnupg binutils-dev openjdk-11-jdk
           
           # (preinstalled: 1.16.15, 1.17.12, 1.18.4)
-          sudo wget https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
-          sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.17.5.linux-amd64.tar.gz
-          sudo echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
+          #sudo wget https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
+          #sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.17.5.linux-amd64.tar.gz
+          #sudo echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
 
           # (preinstalled: bazel-5.2.0)
           #curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor > bazel.gpg
@@ -68,8 +68,9 @@ jobs:
       
       - name: verify
         run: |
-          echo bazel --version
-          echo go version
+          bazel --version
+          go version
           
-      - name: test
-        run: bazel test ...
+      #- name: test
+      #  run: bazel test ...
+  
