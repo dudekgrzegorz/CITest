@@ -21,4 +21,7 @@ jobs:
         run: |
           echo runs on branch: \"${{github.ref_name}}\", on \"${{ github.event_name }}\"
           echo bazel-cache hit: ${{ steps.bazel-cache.outputs.cache-hit == 'true' }}
-  
+          
+      - name: fail if main
+        if: ${{github.ref_name}} == 'main'
+        run: exit 1  
