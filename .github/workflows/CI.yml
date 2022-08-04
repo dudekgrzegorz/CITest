@@ -19,10 +19,10 @@ jobs:
       - name: always run
         run: echo PR checking in progress!
           
-      - name: print cache hit
+      - name: print triggering event
         run: |
           echo runs on branch: \"${{github.ref_name}}\", on \"${{ github.event_name }}\"
-          echo bazel-cache hit: ${{ steps.bazel-cache.outputs.cache-hit == 'true' }}
+          echo is pull request a draft? ${{github.event.pull_request.draft == true}}
           
       - name: fail if main
         if: github.ref_name == 'main'
