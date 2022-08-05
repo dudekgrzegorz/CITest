@@ -1,0 +1,15 @@
+name: CI_setup_toolchain
+
+on:
+  workflow_call:
+
+jobs:
+  setup_toolchain:
+    name: setup toolchain
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: branch checkout
+        uses: actions/checkout@v3   
+
+      - run: ls -al ./.github/workflows/   
