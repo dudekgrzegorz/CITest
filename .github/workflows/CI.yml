@@ -13,7 +13,7 @@ jobs:
       - name: branch checkout
         uses: actions/checkout@v3   
 
-      - run: ls -al /home/runner/work/Oxla/Oxla/.github/workflows/
+      - run: ls -al ./.github/workflows/
 
       - name: setup toolchain
         uses: ./.github/workflows/setup-toolchain.yml
